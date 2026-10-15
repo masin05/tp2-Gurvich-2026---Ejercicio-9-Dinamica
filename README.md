@@ -1,0 +1,1 @@
+# tp2-Gurvich-2026---Ejercicio-9-Dinamica
