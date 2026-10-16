@@ -3,25 +3,24 @@ import Data.Array
 -- Función principal que calcula la longitud del subpalíndromo máximo
 longitudSubpalindromoMaximo :: String -> Int
 longitudSubpalindromoMaximo "" = 0
-longitudSubpalindromoMaximo s = maxLen
+longitudSubpalindromoMaximo xs = maxLen
   where
-    n = length s
+    n = length xs
     -- Convertimos la cadena en un arreglo indexado de 0 a n-1
-    arr = listArray (0, n - 1) s
+    arr = listArray (0, n - 1) xs
 
-    -- Definimos la tabla booleana P como un arreglo de 2 dimensiones: Array (Int, Int) Bool
-    -- Gracias a la pereza de Haskell, podemos definirlo de forma recursiva basada en sus dependencias.
-    p :: Array (Int, Int) Bool
-    p = listArray ((0, 0), (n - 1, n - 1)) [esPalindromo i j | i <- [0..n-1], j <- [0..n-1]]
+    -- Definimos la tabla booleana matriz como un arreglo de 2 dimensiones: Array (Int, Int) Bool
+    matriz:: Array (Int, Int) Bool
+    matriz = listArray ((0, 0), (n - 1, n - 1)) [esPalindromo inicio fin | inicio <- [0..n-1], fin <- [0..n-1]]
 
-    esPalindromo i j
-      | i == j          = True                      -- Caso base: longitud 1
-      | i + 1 == j      = arr ! i == arr ! j        -- Caso base: longitud 2
-      | i > j           = True                      -- Fuera de rango (no usado)
-      | otherwise       = (arr ! i == arr ! j) && (p ! (i + 1, j - 1)) -- Recurrencia
+    esPalindromo inicio fin
+      | inicio == fin          = True                                                -- Caso base: longitud 1
+      | inicio + 1 == fin      = arr ! inicio == arr ! fin                           -- Caso base: longitud 2
+      | inicio > fin           = True                                                -- Fuera de rango (no usado)
+      | otherwise       = (arr ! inicio == arr ! fin) && (matriz ! (inicio + 1, fin - 1)) -- Recurrencia
 
     -- Buscamos la longitud máxima entre todas las subcadenas que resultaron ser palíndromos
-    maxLen = maximum [ j - i + 1 | i <- [0..n-1], j <- [i..n-1], p ! (i, j) ]
+    maxLen = maximum [ fin - inicio + 1 | inicio <- [0..n-1], fin <- [i..n-1], matriz ! (inicio, fin) ]
 
 -- Ejemplo de uso:
 -- *Main> longitudSubpalindromoMaximo "accaba"
