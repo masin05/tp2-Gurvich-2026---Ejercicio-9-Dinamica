@@ -22,6 +22,31 @@ longitudSubpalindromoMaximo xs = maxLen
     -- Buscamos la longitud máxima entre todas las subcadenas que resultaron ser palíndromos
     maxLen = maximum [ fin - inicio + 1 | inicio <- [0..n-1], fin <- [i..n-1], matriz ! (inicio, fin) ]
 
--- Ejemplo de uso:
--- *Main> longitudSubpalindromoMaximo "accaba"
--- 4  (corresponde a "acca")
+-- Caso 1: Cadena vacía (Caso límite básico)
+ejemplo1 :: Int
+ejemplo1 = longitudSubpalindromoMaximo "" 
+-- Resultado esperado: 0
+
+-- Caso 2: Cadena corta con subpalíndromo par ("acca") y longitud impar general ("accaba")
+ejemplo2 :: Int
+ejemplo2 = longitudSubpalindromoMaximo "accaba" 
+-- Resultado esperado: 4 
+-- (Explicación para el profe: El subpalíndromo máximo es "acca" de longitud 4).
+
+-- Caso 3: Palíndromo completo impar en el centro
+ejemplo3 :: Int
+ejemplo3 = longitudSubpalindromoMaximo "abacccabaada" 
+-- Resultado esperado: 9 
+-- (Explicación para el profe: El subpalíndromo máximo es "abacccaba" de longitud 9).
+
+-- Caso 4: Letras todas distintas (Ningún palíndromo mayor a 1)
+ejemplo4 :: Int
+ejemplo4 = longitudSubpalindromoMaximo "abcdef" 
+-- Resultado esperado: 1 
+-- (Explicación para el profe: Cualquier caracter individual es un palíndromo de longitud 1).
+
+-- Caso 5: Toda la cadena es un palíndromo simétrico ("reconocer" o "anitalavalatina")
+ejemplo5 :: Int
+ejemplo5 = longitudSubpalindromoMaximo "reconocer" 
+-- Resultado esperado: 9 
+-- (Explicación para el profe: Toda la palabra completa es un palíndromo).
